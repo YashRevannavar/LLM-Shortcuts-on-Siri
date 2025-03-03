@@ -1,0 +1,26 @@
+{
+  "name": "LLM-SoS",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "sst dev",
+    "build": "sst build",
+    "deploy": "sst deploy",
+    "deploy:dev": "sst deploy --stage dev",
+    "remove": "sst remove",
+    "remove:dev": "sst remove --stage dev",
+    "console": "sst console",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "sst": "^3.9.22",
+    "aws-cdk-lib": "2.142.1",
+    "constructs": "10.3.0",
+    "typescript": "^5.8.2",
+    "@tsconfig/node18": "^18.2.4"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}
