@@ -1,16 +1,13 @@
-
-
-
 def handler(event, context):
     try:
         import logging
         from news_loader import collect_top_headline_content
         from llm_service import llm_daily_response
+        from constants import NEWS_URL
         logger = logging.getLogger()
         logger.setLevel(logging.INFO)
-        url = "https://techcrunch.com/category/artificial-intelligence/"
 
-        collected_news_data = collect_top_headline_content(url)
+        collected_news_data = collect_top_headline_content(NEWS_URL)
         response = llm_daily_response(collected_news_data)
         return {
             "statusCode": 200,

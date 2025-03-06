@@ -2,11 +2,8 @@ import logging
 
 from langchain_core.messages import HumanMessage
 from langchain_mistralai import ChatMistralAI
-from dotenv import load_dotenv
-import os
+from constants import MISTRAL_API_KEY
 
-load_dotenv()
-MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
 
 def llm_daily_response(collected_news_data):
     logging.info("Summarising news articles")
