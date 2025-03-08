@@ -40,7 +40,9 @@ def extract_headline_urls(url):
     return headline_urls
 
 
-def collect_top_headline_content(site_url:str, limit: int = 7) -> List[str]:
+def collect_top_headline_content(site_url: str,
+                                 limit: int = 10,
+                                 length_in_chat: int = 2000) -> List[str]:
     """
     Fetch headlines from a given site URL, limit the number of results,
     load each page with WebBaseLoader, and return combined text
@@ -54,7 +56,7 @@ def collect_top_headline_content(site_url:str, limit: int = 7) -> List[str]:
     for item in data_items:
         title = item.metadata.get('title', '')
         page_text = item.page_content or ''
-        truncated_text = page_text[:1500]  # Keep only 1000 chars of the content
+        truncated_text = page_text[:length_in_chat]
         combined_text = f"{title} {truncated_text}".strip()
         collected_data.append(combined_text)
     logging.info(f"Collected {len(collected_data)} headline contents from {site_url}")

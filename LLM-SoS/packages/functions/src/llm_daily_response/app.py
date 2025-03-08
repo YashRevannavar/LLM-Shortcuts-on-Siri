@@ -1,6 +1,3 @@
-
-
-
 def handler(event, context):
     try:
         import logging
@@ -8,9 +5,9 @@ def handler(event, context):
         from llm_service import llm_daily_response
         logger = logging.getLogger()
         logger.setLevel(logging.INFO)
-        url = "https://techcrunch.com/category/artificial-intelligence/"
+        from constants import NEWS_URL
 
-        collected_news_data = collect_top_headline_content(url)
+        collected_news_data = collect_top_headline_content(NEWS_URL)
         response = llm_daily_response(collected_news_data)
         return {
             "statusCode": 200,
