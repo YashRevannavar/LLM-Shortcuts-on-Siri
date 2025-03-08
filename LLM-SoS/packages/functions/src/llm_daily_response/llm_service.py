@@ -1,20 +1,19 @@
 import logging
 
+from langchain_aws import ChatBedrock
 from langchain_core.messages import HumanMessage
-from langchain_mistralai import ChatMistralAI
-from dotenv import load_dotenv
-import os
 
-load_dotenv()
-MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
+
+def get_llm_bedrock_ai() -> ChatBedrock:
+    return ChatBedrock(
+        model_id="anthropic.claude-3-5-sonnet-20240620-v1:0",
+        model_kwargs=dict(temperature=0.9),
+    )
+
 
 def llm_daily_response(collected_news_data):
     logging.info("Summarising news articles")
-    chat = ChatMistralAI(api_key=MISTRAL_API_KEY,
-                         model="mistral-large-latest",
-                         temperature=0.9,
-                         max_tokens=131000,
-                         )
+    chat = get_llm_bedrock_ai()
     system_prompt = f"""
         You are a personal ai News reporter that helps me summarise news articles every day,
         My name is Yash and I want to stay connected to the news but I am busy so help me understand top news.
@@ -25,5 +24,8 @@ def llm_daily_response(collected_news_data):
         Always greet me with "Hello Yash" and say "Goodbye have a good day" at the end.
         """
     messages = [HumanMessage(content=system_prompt)]
-    response = chat.invoke(messages)
-    return response.content
+    try:
+        response = chat.invoke(messages)
+        return response.content
+    except Exception as e:
+        return f"Due to {str(e)} we could not fetch the news data"

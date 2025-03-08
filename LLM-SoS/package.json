@@ -8,8 +8,10 @@
     "build": "sst build",
     "deploy": "sst deploy",
     "deploy:dev": "sst deploy --stage dev",
+    "deploy:test": "sst deploy --stage test",
     "remove": "sst remove",
     "remove:dev": "sst remove --stage dev",
+    "remove:test": "sst remove --stage test",
     "console": "sst console",
     "typecheck": "tsc --noEmit"
   },

@@ -6,13 +6,9 @@ def handler(event, context):
         import logging
         from news_loader import collect_top_headline_content
         from llm_service import llm_daily_response
-        from dotenv import load_dotenv
-        import os
-
-        load_dotenv()
-        NEWS_URL = os.getenv("NEWS_URL")
         logger = logging.getLogger()
         logger.setLevel(logging.INFO)
+        from constants import NEWS_URL
 
         collected_news_data = collect_top_headline_content(NEWS_URL)
         response = llm_daily_response(collected_news_data)

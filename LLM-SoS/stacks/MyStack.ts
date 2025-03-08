@@ -1,13 +1,15 @@
 import {StackContext, Function, Api} from "sst/constructs";
 
-const CUSTOM_TIMEOUT = 15 * 60;  // 15 minutes
+const CUSTOM_TIMEOUT = 15 * 60; // 15 minutes
+
 export function MyStack({stack}: StackContext) {
     // 1) Create a basic Python Lambda
-    const llm_daily_response = new Function(stack, "MyPythonLambda", {
+    const llm_daily_response = new Function(stack, "LlmDailyFunction", {
         runtime: "python3.11",
         handler: "packages/functions/src/llm_daily_response/app.handler",
         timeout: CUSTOM_TIMEOUT,
-        architecture: "arm_64"
+        architecture: "arm_64",
+        permissions: ["bedrock:InvokeModel"],
     });
 
     const api = new Api(stack, "MyApi", {
@@ -19,7 +21,7 @@ export function MyStack({stack}: StackContext) {
     });
 
     stack.addOutputs({
-        MyPythonLambdaName: llm_daily_response.functionName,
+        LlmDailyFunctionName: llm_daily_response.functionName,
         ApiEndpoint: api.url,
     });
 }

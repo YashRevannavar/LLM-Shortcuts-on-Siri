@@ -3,5 +3,6 @@ langchain_community
 python-dotenv==1.0.1
 pydantic_core==2.18.4
 langchain-core
-langchain-mistralai
+#langchain-mistralai
 beautifulsoup4
+langchain-aws
