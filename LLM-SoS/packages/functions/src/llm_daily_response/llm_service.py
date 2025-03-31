@@ -1,7 +1,8 @@
 import logging
 
 from langchain_aws import ChatBedrock
-from langchain_core.messages import HumanMessage
+from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_core.prompts import human_prompt, system_prompt
 
 
 def get_llm_bedrock_ai() -> ChatBedrock:
@@ -14,18 +15,10 @@ def get_llm_bedrock_ai() -> ChatBedrock:
 def llm_daily_response(collected_news_data):
     logging.info("Summarising news articles")
     chat = get_llm_bedrock_ai()
-    system_prompt = f"""
-        You are a personal ai News reporter that helps me summarise news articles every day,
-        My name is Yash and I want to stay connected to the news but I am busy so help me understand top news.
-        You will provide me with a list of the news articles below, Please report me this news in a human-like manner.
-        {collected_news_data}
-
-        Make sure it is going to be in an audio format so make it sound like a human and do not format it textually.
-        Always greet me with "Hello Yash" and say "Goodbye have a good day" at the end.
-        """
-    messages = [HumanMessage(content=system_prompt)]
+    logging.info("Collecting prompt data")
+    messages = [HumanMessage(content=human_prompt, collected_news_data=collected_news_data), SystemMessage(content=system_prompt)]
     try:
-        response = chat.invoke(messages)
+        response = chat.invoke(str(messages))
         return response.content
     except Exception as e:
         return f"Due to {str(e)} we could not fetch the news data"
